@@ -1,5 +1,4 @@
 import os
-import tensorflow as tf
 import warnings
 from transformers import AutoModelForImageClassification, AutoFeatureExtractor
 import torch
@@ -34,14 +33,13 @@ def predict():
     feature_extractor = AutoFeatureExtractor.from_pretrained('carbon225/vit-base-patch16-224-hentai')
     model = AutoModelForImageClassification.from_pretrained('carbon225/vit-base-patch16-224-hentai')
     src = request.args.get("src")
+    print(f"{src=}")
     response = requests.get(src)
+    print(f"{response=}")
     try:
         image = Image.open(BytesIO(response.content))
         image = image.resize((128, 128))
         image.save("new.jpg")
-        # image = np.array(image)
-        # image = image.astype("float") / 255.0
-        # image = np.expand_dims(image, axis=0)
         encoding = feature_extractor(image.convert("RGB"), return_tensors="pt")
         with torch.no_grad():
             outputs = model(**encoding)
@@ -51,14 +49,9 @@ def predict():
         print(model.config.id2label[predicted_class_idx])
         # Return the predictions
         return json.dumps({"class": model.config.id2label[predicted_class_idx]})
-    #     pred = MODEL.predict(image)
-    #     return json.dumps({"class": CLASSES[int(np.argmax(pred, axis=1))]})
     except:
         return json.dumps({"Uh oh": "We are down"})
 
 
 if __name__ == "__main__":
-    # MODEL_PATH = os.path.abspath("./models/image/dump/mobile_net.h5")
-    # MODEL = tf.keras.models.load_model(MODEL_PATH)
-    # CLASSES = ["control", "gore", "pornography"]
     app.run(threaded=True, debug=True)

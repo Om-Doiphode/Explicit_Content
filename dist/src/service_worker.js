@@ -14,6 +14,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       .then(data => {
         console.log(`data_length: ${data.class}`)
         if(data.class === 'explicit' || data.class === 'suggestive'){
+          window.location.href="https://www.google.com";
           censored[item] = data.class;
         }
       })
