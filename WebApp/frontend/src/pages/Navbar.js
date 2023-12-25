@@ -3,10 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
   
-
+// Navbar component definition
 const Navbar = () => {
+
+    // Get the current location using useLocation hook
     let location = useLocation();
+
+    // Retrieve the authentication token from local storage
     const authToken = localStorage.getItem('token');
+
+    // Get the navigate function from useNavigate hook
     const navigate=useNavigate();
     const handleLogout = () => {
         // Clear the token from local storage
@@ -15,6 +21,8 @@ const Navbar = () => {
         // Redirect to the login page
         navigate('/login');
       };
+
+    // Render the navbar
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">

@@ -5,6 +5,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
+// Data for the images displayed as buttons
 const images = [
   {
     url: 'ExplicitImage.jpg',
@@ -20,6 +21,7 @@ const images = [
   },
 ];
 
+// Styled components for the button, image, and related elements
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
   height: "100vh",
@@ -84,12 +86,17 @@ const ImageMarked = styled('span')(({ theme }) => ({
   transition: theme.transitions.create('opacity'),
 }));
 
+// Main functional component for the button demo
 export default function ButtonBaseDemo() {
+  // Hook for navigation
   const navigate=useNavigate();
 
+  // Function to handle button click and navigate to the specified route
   const handleButtonClick=(route)=>{
     navigate(route);
   }
+
+  // Render the component
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
       {images.map((image) => (

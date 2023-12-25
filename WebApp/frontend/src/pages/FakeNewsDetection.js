@@ -12,13 +12,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Popup from './Popup';
 import LoadingSpinner from './LoadingSpinner';
 
+// Create a default MUI theme
 const defaultTheme = createTheme();
 
 const FakeNewsDetection=()=>{
+  // State to manage the input text, analysis result, and loading state
     const [text, setText]=useState("");
     const [analysisResult, setAnalysisResult]=useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
             // Make a GET request to the backend with the image URL
@@ -48,10 +51,12 @@ const FakeNewsDetection=()=>{
       // Clear the input fields after submission
       setText("");
     }
-
+    // Function to handle text input change
     const onChange = (e)=>{
         setText(e.target.value);
     }
+
+    // Render the component
     return (
         <>
         <ThemeProvider theme={defaultTheme}>
