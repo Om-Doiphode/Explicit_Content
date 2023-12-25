@@ -86,9 +86,9 @@ const ImageDetection=()=>{
       setIsLoading(true);
 
       if (imageLink) {
-    genResult(imageLink,'http://127.0.0.1:3001/image/check','http://127.0.0.1:3001/image/create',`https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(imageLink)}`)
+    genResult(imageLink,'https://explicit-image-backend1.onrender.com/image/check','https://explicit-image-backend1.onrender.com/image/create',`https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(imageLink)}`)
       } else if (websiteLink) {
-        genResult(websiteLink,'http://127.0.0.1:3001/image/check','http://127.0.0.1:3001/image/create',`https://hawkeyehs-imageexplicit.hf.space/extractimages?src=${encodeURIComponent(
+        genResult(websiteLink,'https://explicit-image-backend1.onrender.com/image/check','https://explicit-image-backend1.onrender.com/image/create',`https://hawkeyehs-imageexplicit.hf.space/extractimages?src=${encodeURIComponent(
           websiteLink
         )}`)
       } else {

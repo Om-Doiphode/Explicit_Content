@@ -5,7 +5,7 @@ for (let i = 0; i < imgTags.length; i++) {
     let imgTag = imgTags[i];
     let imgSrc = imgTag.src;
 
-    const checkEndpoint = 'http://127.0.0.1:3001/image/check';
+    const checkEndpoint = 'https://explicit-image-backend1.onrender.com/image/check';
     fetch(checkEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -35,7 +35,7 @@ for (let i = 0; i < imgTags.length; i++) {
                 })
                 .then(data => {
                     console.log(`data_length: ${data.class}`);
-                    const createEndpoint = 'http://localhost:3001/image/create';
+                    const createEndpoint = 'https://explicit-image-backend1.onrender.com/image/create';
                     fetch(createEndpoint, {
                         method: "POST",
                         headers: {
