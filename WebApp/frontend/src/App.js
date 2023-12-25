@@ -5,17 +5,20 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ImageDetection from './pages/ImageDetection';
+import FakeNewsDetection from './pages/FakeNewsDetection';
 
 function App() {
   const navigate=useNavigate();
-  // Example in App.js or your main component
-useEffect(() => {
-  const authToken = localStorage.getItem('token');
-  if (authToken) {
-    // User is authenticated, redirect to home page
-    navigate('/');
-  }
-}, []);
+  useEffect(() => {
+    const authToken = localStorage.getItem('token');
+    const currentPath = window.location.pathname;
+
+    if (authToken && currentPath === '/') {
+      // User is authenticated and accessing the home page, redirect to home
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <div className="App">
@@ -31,6 +34,14 @@ useEffect(() => {
       <Route
               exact path="/login"
               element={<Login/>}
+      ></Route>
+      <Route
+              exact path="/image-detection"
+              element={<ImageDetection/>}
+      ></Route>
+      <Route
+              exact path="/fake-news-detection"
+              element={<FakeNewsDetection/>}
       ></Route>
       </Routes>
     </div>

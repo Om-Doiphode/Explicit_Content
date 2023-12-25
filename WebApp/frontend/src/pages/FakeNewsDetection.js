@@ -14,60 +14,44 @@ import LoadingSpinner from './LoadingSpinner';
 
 const defaultTheme = createTheme();
 
-const ImageDetection=()=>{
-  const [imageLink, setImageLink] = useState("");
-  const [websiteLink, setWebsiteLink] = useState("");
-  const [analysisResult, setAnalysisResult] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const FakeNewsDetection=()=>{
+    const [text, setText]=useState("");
+    const [analysisResult, setAnalysisResult]=useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Make a GET request to the backend with the image URL or website URL
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+            // Make a GET request to the backend with the image URL
     try {
       setIsLoading(true);
-      let endpoint = "";
-
-      if (imageLink) {
-        endpoint = `https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(
-          imageLink
-        )}`;
-      } else if (websiteLink) {
-        endpoint = `https://hawkeyehs-imageexplicit.hf.space/extractimages?src=${encodeURIComponent(
-          websiteLink
-        )}`;
-      } else {
-        console.error("Error: No input provided");
-        setIsLoading(false);
-        return;
-      }
-
-      const response = await fetch(endpoint);
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Analysis Result:", result);
-        setAnalysisResult(result);
-        setIsLoading(false);
-        // You can handle the result here
-      } else {
-        console.error("Error:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-
-    // Clear the input fields after submission
-    setImageLink("");
-    setWebsiteLink("");
-    }
-
-    const onImageLinkChange = (e) => {
-      setImageLink(e.target.value);
-    };
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST", // Use the POST method for sending data
+        headers: {
+          "Content-Type": "application/json", // Specify the content type as JSON
+        },
+        body: JSON.stringify({ sample: text }), // Convert the text to JSON and send it in the request body
+      });
   
-    const onWebsiteLinkChange = (e) => {
-      setWebsiteLink(e.target.value);
-    };
+        if (response.ok) {
+          const result = await response.json();
+          console.log("Analysis Result:", result);
+          setAnalysisResult(result);
+          setIsLoading(false);
+          // You can handle the result here
+        } else {
+          console.error("Error:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+  
+      // Clear the input fields after submission
+      setText("");
+    }
+
+    const onChange = (e)=>{
+        setText(e.target.value);
+    }
     return (
         <>
         <ThemeProvider theme={defaultTheme}>
@@ -101,32 +85,20 @@ const ImageDetection=()=>{
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                  Explicit Image Detection Tool
+                  Fake News Detection Tool
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                   <TextField
                     margin="normal"
                     required
                     fullWidth
-                    id="image_link"
-                    label="Image Link"
-                    name="image_link"
-                    value={imageLink}
-                    onChange={onImageLinkChange}
+                    id="text_box"
+                    label="News"
+                    name="News"
+                    value={text}
+                    onChange={onChange}
                     autoFocus
                   />
-                  <Typography variant="body2" sx={{ mt: 1, mb: 1, display: 'block', textAlign: 'center' }}>
-          OR
-        </Typography>
-                          <TextField
-          margin="normal"
-          fullWidth
-          id="website_link"
-          label="Website Link"
-          name="website_link"
-          value={websiteLink}
-          onChange={onWebsiteLinkChange}
-        />
                   <Button
                     type="submit"
                     fullWidth
@@ -146,4 +118,4 @@ const ImageDetection=()=>{
       );
 }
 
-export default ImageDetection;
+export default FakeNewsDetection;

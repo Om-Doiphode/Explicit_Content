@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -36,7 +35,7 @@ export default function Popup({ result }) {
       setOpen(true);
 
       // Set modal style based on result content
-      if (result.class === 'explicit') {
+      if (result.class === 'explicit' || result.result === 'FAKE') {
         setModalStyle(dangerStyle);
       } else {
         setModalStyle(safeStyle);

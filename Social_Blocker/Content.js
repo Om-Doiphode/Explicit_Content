@@ -17,7 +17,8 @@ for (var i = 0; i < imgTags.length; i++) {
         .then(data => {
             console.log(`data_length: ${data.class}`);
             if (data.class === 'explicit' || data.class === 'suggestive') {
-                window.location.href = "https://www.google.com";
+                // window.location.href = "https://www.google.com";
+                chrome.runtime.sendMessage({redirect: "index.html"});
             }
         })
         .catch(error => {
