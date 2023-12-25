@@ -35,7 +35,7 @@ export default function Popup({ result }) {
       setOpen(true);
 
       // Set modal style based on result content
-      if (result.class === 'explicit' || result.result === 'FAKE') {
+      if (result.category === 'explicit' || result.result === 'FAKE') {
         setModalStyle(dangerStyle);
       } else {
         setModalStyle(safeStyle);

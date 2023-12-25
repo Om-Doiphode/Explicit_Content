@@ -1,27 +1,69 @@
 let imgTags = document.getElementsByTagName('img');
 
 // Loop through each <img> tag and download the image
-for (var i = 0; i < imgTags.length; i++) {
-    var imgTag = imgTags[i];
-    var imgSrc = imgTag.src;
+for (let i = 0; i < imgTags.length; i++) {
+    let imgTag = imgTags[i];
+    let imgSrc = imgTag.src;
 
-    const endpoint = `https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(imgSrc)}`;
-    fetch(endpoint)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error("Error in fetching");
+    const checkEndpoint = 'http://127.0.0.1:3001/image/check';
+    fetch(checkEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: imgSrc })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error in fetching");
+        }
+    })
+    .then(data => {
+        if (data && data.category) {
+            if (data.category === 'explicit' || data.category === 'suggestive') {
+                chrome.runtime.sendMessage({ redirect: "index.html" });
             }
-        })
-        .then(data => {
-            console.log(`data_length: ${data.class}`);
-            if (data.class === 'explicit' || data.class === 'suggestive') {
-                // window.location.href = "https://www.google.com";
-                chrome.runtime.sendMessage({redirect: "index.html"});
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        } else {
+            const endpoint = `https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(imgSrc)}`;
+            fetch(endpoint)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Error in fetching");
+                    }
+                })
+                .then(data => {
+                    console.log(`data_length: ${data.class}`);
+                    const createEndpoint = 'http://localhost:3001/image/create';
+                    fetch(createEndpoint, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: imgSrc, type: 'image', category: data.class }),
+                    })
+                    .then(createResponse => {
+                        if (createResponse.ok) {
+                            return createResponse.json();
+                        } else {
+                            throw new Error("Error in creating entry");
+                        }
+                    })
+                    .then(createData => {
+                        console.log(`Entry created in the database. Category: ${createData.category}`);
+                        if (createData.category === 'explicit' || createData.category === 'suggestive') {
+                            // Handle explicit or suggestive content
+                            chrome.runtime.sendMessage({ redirect: "index.html" });
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    });
 }
