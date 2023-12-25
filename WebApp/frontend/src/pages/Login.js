@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Function component for displaying copyright information
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,10 +33,13 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+// Login component definition
 export default function Login() {
+  // State to manage user credentials (email and password)
   const [credentials, setCredentials] = useState({email: "", password: ""}) 
   const navigate = useNavigate();
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("https://explicit-image-backend1.onrender.com/auth/login", {
@@ -54,13 +58,17 @@ export default function Login() {
 
     }
     else{
+        // Display an alert for invalid credentials
         alert("Invalid credentials");
     }
 }
+
+// Function to handle input changes
   const onChange = (e)=>{
     setCredentials({...credentials, [e.target.name]: e.target.value})
 }
 
+// Render the component
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>

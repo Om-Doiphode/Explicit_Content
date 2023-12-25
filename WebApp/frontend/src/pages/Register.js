@@ -31,10 +31,15 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+// Register component definition
 export default function Register() {
 
+  // State to manage user registration credentials
   const [credentials, setCredentials] = useState({name:"",email: "", password: "",cpassword: ""})
+  // React Router hook for navigation
   const navigate = useNavigate();
+
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("https://explicit-image-backend1.onrender.com/auth/createUser", {
@@ -44,6 +49,8 @@ export default function Register() {
         },
         body: JSON.stringify({name:credentials.name, email: credentials.email, password: credentials.password})
     });
+
+    // Parse response JSON
     const json = await response.json()
     console.log(json);
     if (json.success){
@@ -53,13 +60,16 @@ export default function Register() {
 
     }
     else{
+      // Display an alert for invalid credentials
         alert("Invalid credentials");
     }
 }
+// Function to handle input changes
   const onChange = (e)=>{
     setCredentials({...credentials, [e.target.name]: e.target.value})
 }
 
+// Render the registration form
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

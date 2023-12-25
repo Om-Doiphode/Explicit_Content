@@ -9,9 +9,15 @@ import ImageDetection from './pages/ImageDetection';
 import FakeNewsDetection from './pages/FakeNewsDetection';
 
 function App() {
+  // React Router hook for navigation
   const navigate=useNavigate();
+
+  // Check authentication on component mount
   useEffect(() => {
+    // Get the authentication token from local storage
     const authToken = localStorage.getItem('token');
+
+    // Get the current path
     const currentPath = window.location.pathname;
 
     if (authToken && currentPath === '/') {

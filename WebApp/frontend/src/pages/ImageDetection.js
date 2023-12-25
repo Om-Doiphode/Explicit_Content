@@ -12,15 +12,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Popup from './Popup';
 import LoadingSpinner from './LoadingSpinner';
 
+// Create a default MUI theme
 const defaultTheme = createTheme();
 
 
 
 const ImageDetection=()=>{
+  // State to manage image link, website link, analysis result, and loading state
   const [imageLink, setImageLink] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [analysisResult, setAnalysisResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // State to manage image link, website link, analysis result, and loading state
   const genResult=(link,checkEndpoint,createEndpoint,endpoint)=>{
     fetch(checkEndpoint, {
         method: 'POST',
@@ -78,7 +81,7 @@ const ImageDetection=()=>{
         }
     });
 }
-
+// Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Make a GET request to the backend with the image URL or website URL
@@ -105,13 +108,17 @@ const ImageDetection=()=>{
     setWebsiteLink("");
     }
 
+    // Function to handle image link input change
     const onImageLinkChange = (e) => {
       setImageLink(e.target.value);
     };
   
+    // Function to handle website link input change
     const onWebsiteLinkChange = (e) => {
       setWebsiteLink(e.target.value);
     };
+
+    // Render the component
     return (
         <>
         <ThemeProvider theme={defaultTheme}>
