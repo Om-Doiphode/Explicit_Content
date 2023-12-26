@@ -10,7 +10,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 app = Flask(__name__)
 cors = CORS(app)
 inference = ClassificationModel(
-      "roberta", "./checkpoint-7500-epoch-5",use_cuda=False
+      "roberta", "/home/hawkeye/Downloads/checkpoint-7500-epoch-5-20231203T091750Z-001/checkpoint-7500-epoch-5",use_cuda=False
   )
 
 def clean_txt(text):
