@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Popup from "./Popup";
 import LoadingSpinner from "./LoadingSpinner";
 
+// Create a default MUI theme
 const defaultTheme = createTheme();
 
 const ImageDetection = () => {
@@ -18,38 +19,81 @@ const ImageDetection = () => {
   const [websiteLink, setWebsiteLink] = useState("");
   const [analysisResult, setAnalysisResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  // State to manage image link, website link, analysis result, and loading state
+  const genResult=(link,checkEndpoint,createEndpoint,endpoint)=>{
+    fetch(checkEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: link })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error in fetching");
+        }
+    })
+    .then(data => {
+        if (data && data.category) {
+              setAnalysisResult(data);
+              setIsLoading(false);
+        } else {
+            fetch(endpoint)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Error in fetching");
+                    }
+                })
+                .then(data => {
+                    console.log(`data_length: ${data.class}`);
+                    fetch(createEndpoint, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: link, type: 'image', category: data.class }),
+                    })
+                    .then(createResponse => {
+                        if (createResponse.ok) {
+                            return createResponse.json();
+                        } else {
+                            throw new Error("Error in creating entry");
+                        }
+                    })
+                    .then(createData => {
+                        console.log(`Entry created in the database. Category: ${createData.category}`);
+                            setAnalysisResult(createData);
+                            setIsLoading(false);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    });
+}
+// Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Make a GET request to the backend with the image URL or website URL
     try {
       setIsLoading(true);
-      let endpoint = "";
 
       if (imageLink) {
-        endpoint = `https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(
-          imageLink
-        )}`;
+    genResult(imageLink,'https://explicit-image-backend1.onrender.com/image/check','https://explicit-image-backend1.onrender.com/image/create',`https://hawkeyehs-detectimageexplicit.hf.space/predict?src=${encodeURIComponent(imageLink)}`)
       } else if (websiteLink) {
-        endpoint = `https://hawkeyehs-imageexplicit.hf.space/extractimages?src=${encodeURIComponent(
+        genResult(websiteLink,'https://explicit-image-backend1.onrender.com/image/check','https://explicit-image-backend1.onrender.com/image/create',`https://hawkeyehs-imageexplicit.hf.space/extractimages?src=${encodeURIComponent(
           websiteLink
-        )}`;
+        )}`)
       } else {
         console.error("Error: No input provided");
         setIsLoading(false);
         return;
-      }
-
-      const response = await fetch(endpoint);
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Analysis Result:", result);
-        setAnalysisResult(result);
-        setIsLoading(false);
-        // You can handle the result here
-      } else {
-        console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error:", error.message);

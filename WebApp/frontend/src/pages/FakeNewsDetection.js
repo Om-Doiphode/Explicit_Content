@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Popup from "./Popup";
 import LoadingSpinner from "./LoadingSpinner";
 
+// Create a default MUI theme
 const defaultTheme = createTheme();
 
 const FakeNewsDetection = () => {

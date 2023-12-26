@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
+// Main functional component for the button demo
 export default function ButtonBaseDemo() {
   const navigate = useNavigate();
 
