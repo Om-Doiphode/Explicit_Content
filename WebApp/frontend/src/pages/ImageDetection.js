@@ -1,20 +1,20 @@
-import React, {useState} from 'react'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Popup from './Popup';
-import LoadingSpinner from './LoadingSpinner';
+import React, { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Popup from "./Popup";
+import LoadingSpinner from "./LoadingSpinner";
 
 const defaultTheme = createTheme();
 
-const ImageDetection=()=>{
+const ImageDetection = () => {
   const [imageLink, setImageLink] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [analysisResult, setAnalysisResult] = useState("");
@@ -59,91 +59,97 @@ const ImageDetection=()=>{
     // Clear the input fields after submission
     setImageLink("");
     setWebsiteLink("");
-    }
+  };
 
-    const onImageLinkChange = (e) => {
-      setImageLink(e.target.value);
-    };
-  
-    const onWebsiteLinkChange = (e) => {
-      setWebsiteLink(e.target.value);
-    };
-    return (
-        <>
-        <ThemeProvider theme={defaultTheme}>
-          <Grid container component="main" sx={{ height: '100vh' }}>
-            <CssBaseline />
-            <Grid
-              item
-              xs={false}
-              sm={4}
-              md={7}
-              sx={{
-                backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: (t) =>
-                  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-              <Box
-                sx={{
-                  my: 8,
-                  mx: 4,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
+  const onImageLinkChange = (e) => {
+    setImageLink(e.target.value);
+  };
+
+  const onWebsiteLinkChange = (e) => {
+    setWebsiteLink(e.target.value);
+  };
+
+  return (
+    <div
+      style={{
+        backgroundImage: "url('tp.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "rgba(255, 255, 255, 0.7)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+    
+      <ThemeProvider theme={defaultTheme}>
+        <CssBaseline />
+        <Paper elevation={6} style={{ padding: "2rem", opacity: 0.9 }}>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Explicit Image Detection Tool
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="image_link"
+                label="Image Link"
+                name="image_link"
+                value={imageLink}
+                onChange={onImageLinkChange}
+                autoFocus
+              />
+              <Typography
+                variant="body2"
+                sx={{ mt: 1, mb: 1, display: "block", textAlign: "center" }}
               >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Explicit Image Detection Tool
-                </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="image_link"
-                    label="Image Link"
-                    name="image_link"
-                    value={imageLink}
-                    onChange={onImageLinkChange}
-                    autoFocus
-                  />
-                  <Typography variant="body2" sx={{ mt: 1, mb: 1, display: 'block', textAlign: 'center' }}>
-          OR
-        </Typography>
-                          <TextField
-          margin="normal"
-          fullWidth
-          id="website_link"
-          label="Website Link"
-          name="website_link"
-          value={websiteLink}
-          onChange={onWebsiteLinkChange}
-        />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Submit
-                  </Button>
-                  {isLoading ? <LoadingSpinner /> : null}
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </ThemeProvider>
-        {analysisResult!==''?<Popup result={analysisResult}/>:null}
-        </>
-      );
-}
+                OR
+              </Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="website_link"
+                label="Website Link"
+                name="website_link"
+                value={websiteLink}
+                onChange={onWebsiteLinkChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </Button>
+              {isLoading ? <LoadingSpinner /> : null}
+            </Box>
+          </Box>
+        </Paper>
+      </ThemeProvider>
+      {analysisResult !== "" ? <Popup result={analysisResult} /> : null}
+    </div>
+  );
+};
 
 export default ImageDetection;

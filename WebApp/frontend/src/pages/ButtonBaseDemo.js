@@ -1,126 +1,64 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
-import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
-
-const images = [
-  {
-    url: 'ExplicitImage.jpg',
-    title: 'Explicit Image Detection',
-    width: '50%',
-    route:'/image-detection'
-  },
-  {
-    url: 'Fake.jpg',
-    title: 'Fake News Detection',
-    width: '50%',
-    route:'fake-news-detection'
-  },
-];
-
-const ImageButton = styled(ButtonBase)(({ theme }) => ({
-  position: 'relative',
-  height: "100vh",
-  [theme.breakpoints.down('sm')]: {
-    width: '100% !important', // Overrides inline-style
-    height: 100,
-  },
-  '&:hover, &.Mui-focusVisible': {
-    zIndex: 1,
-    '& .MuiImageBackdrop-root': {
-      opacity: 0.15,
-    },
-    '& .MuiImageMarked-root': {
-      opacity: 0,
-    },
-    '& .MuiTypography-root': {
-      border: '4px solid currentColor',
-    },
-  },
-}));
-
-const ImageSrc = styled('span')({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center 40%',
-});
-
-const Image = styled('span')(({ theme }) => ({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: theme.palette.common.white,
-}));
-
-const ImageBackdrop = styled('span')(({ theme }) => ({
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0,
-  backgroundColor: theme.palette.common.black,
-  opacity: 0.4,
-  transition: theme.transitions.create('opacity'),
-}));
-
-const ImageMarked = styled('span')(({ theme }) => ({
-  height: 3,
-  width: 18,
-  backgroundColor: theme.palette.common.white,
-  position: 'absolute',
-  bottom: -2,
-  left: 'calc(50% - 9px)',
-  transition: theme.transitions.create('opacity'),
-}));
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import ButtonBase from "@mui/material/ButtonBase";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 export default function ButtonBaseDemo() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const handleButtonClick=(route)=>{
+  const handleButtonClick = (route) => {
     navigate(route);
-  }
+  };
+
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-      {images.map((image) => (
-        <ImageButton
-          focusRipple
-          key={image.title}
-          style={{
-            width: image.width,
-          }}
-          onClick={()=>handleButtonClick(image.route)}
-        >
-          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: 'relative',
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-              }}
-            >
-              {image.title}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-      ))}
-    </Box>
+    <div className="flex h-screen justify-center bg-slate-200">
+      <div className="w-2/5 m-[5%] rounded-3xl bg-white shadow-lg">
+        <div>
+          <p className="text-black text-center text-2xl p-10">
+            Detect explicit content within images for a safer online experience,
+            helping users avoid inappropriate or offensive visuals.
+          </p>
+        </div>
+        <div className="w-full p-4 rounded">
+          <button
+            className="w-3/4 h-64 relative overflow-hidden rounded-md focus:outline-none"
+            onClick={() => handleButtonClick("/image-detection")}
+            style={{
+              backgroundImage: `url('./ExplicitImage.jpg')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "0.375rem",
+            }}
+          >
+            .
+          </button>
+        </div>
+      </div>
+      <div className="w-2/5 m-[5%] rounded-3xl bg-white shadow-lg">
+        <div>
+          <p className="text-black text-center text-2xl p-10">
+            Verify news authenticity and combat misinformation by identifying
+            and flagging potentially misleading or fabricated news articles,
+            promoting information accuracy.
+          </p>
+        </div>
+        <div className="w-full p-4 rounded">
+          <button
+            className="w-3/4 h-64 relative overflow-hidden rounded-md focus:outline-none"
+            onClick={() => handleButtonClick("/fake-news-detection")}
+            style={{
+              backgroundImage: `url('./Fake.jpg')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              borderRadius: "0.375rem",
+            }}
+          >
+            .
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

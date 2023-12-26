@@ -19,15 +19,9 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="100vh"
-      >
-        <ButtonBaseDemo/>
-      </Box>
+
+      <ButtonBaseDemo />
+
       {/* Additional components like ImageDetection and FakeNewsDetection go here */}
     </div>
   );
