@@ -37,7 +37,7 @@ export default function Register() {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3001/auth/createUser", {
+    const response = await fetch("https://explicit-image-backend1.onrender.com/auth/createUser", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

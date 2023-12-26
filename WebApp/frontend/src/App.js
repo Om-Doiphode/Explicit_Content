@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ImageDetection from "./pages/ImageDetection";
 import FakeNewsDetection from "./pages/FakeNewsDetection";
+import About from "./pages/About";
 import "./tailwind.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />}></Route>
         <Route exact path="/register" element={<Register />}></Route>
+        <Route exact path="/about" element={<About/>}></Route>
         <Route exact path="/login" element={<Login />}></Route>
         <Route
           exact
